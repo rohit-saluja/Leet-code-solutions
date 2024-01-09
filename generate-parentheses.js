@@ -4,14 +4,16 @@
  */
 var generateParenthesis = function(n) {
     const result = []
-    backtracking('',n,result,0,0)
+    const backtracking = (combination,open,close)=>{
+        if(n*2 === combination.length){
+            result.push(combination)
+            return 
+        }
+        if(open < n)
+            backtracking(combination + '(',open + 1,close)
+        if(close < open)
+            backtracking(combination + ')',open,close + 1)
+    }
+    backtracking('',0,0)
     return result
 };
-const backtracking  = (combination,n,result,open,close)=>{
-    if(combination.length === n*2)
-        return result.push(combination)
-    if(open < n)
-        backtracking(combination + '(',n,result,open+1,close)
-    if(close < open)
-        backtracking(combination + ')',n,result,open,close+1)
-}
