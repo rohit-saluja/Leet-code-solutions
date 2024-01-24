@@ -11,30 +11,30 @@
  * @return {ListNode}
  */
 var rotateRight = function(head, k) {
-    const list = []
-    const reverse = (i,j)=>{
-        while(i<j){
-            [list[i],list[j]] = [list[j],list[i]]
-            i = i + 1
-            j = j - 1
-        }
-    }
+    if(!head) return head
+    let count = 0
     let curr = head
+    
     while(curr){
-        list.push(curr.val)
+        count = count + 1
         curr = curr.next
     }
-    k = k % list.length
-    reverse(0,list.length-1)
-    reverse(0,k-1)
-    reverse(k,list.length-1)
-    head = new ListNode(0)
+    k=k%count
+
+    let prev = head
     curr = head
-    let i = 0
-    while(i < list.length){
-        curr.next = new ListNode(list[i])
+    while(k>0){
         curr = curr.next
-        i = i + 1
+        k=k-1
     }
-    return head.next
+    while(curr.next){
+        curr = curr.next
+        prev = prev.next
+    }
+
+    curr.next = head
+    head = prev.next
+    prev.next = null
+    
+    return head
 };

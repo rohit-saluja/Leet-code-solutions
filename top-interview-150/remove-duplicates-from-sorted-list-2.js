@@ -10,23 +10,18 @@
  * @return {ListNode}
  */
 var deleteDuplicates = function(head) {
-    const map = new Map()
-    let curr  = head
-    
-    while(curr){
-        if(map.has(curr.val)){
-            map.set(curr.val,map.get(curr.val) + 1)
-        }else map.set(curr.val,1)
-        curr = curr.next
+    if(!head || !head.next)
+        return head
+    const fake = new ListNode(0)
+    curr = fake
+    fake.next = head
+    while(curr.next && curr.next.next){
+        if(curr.next.val === curr.next.next.val){
+            let duplicate = curr.next.val
+            while(curr.next && curr.next.val === duplicate){
+                curr.next = curr.next.next
+            }
+        }else curr = curr.next
     }
-    const result = Array.from(map.entries()).filter(([index,value])=>value === 1).map(value=>value[0])
-    head = new ListNode(0)
-    curr = head
-    let i=0
-    while(i< result.length){
-        curr.next = new ListNode(result[i])
-        curr = curr.next
-        i = i + 1
-    }
-    return head.next
+    return fake.next
 };
